@@ -1,38 +1,38 @@
 import type { Metadata } from "next";
-import { DM_Mono, DM_Sans, DM_Serif_Display } from "next/font/google";
+import { Fraunces, IBM_Plex_Mono, Manrope } from "next/font/google";
 import "./globals.css";
 
-const dmSerif = DM_Serif_Display({
-  variable: "--font-dm-serif",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["600", "700"],
 });
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   weight: ["400", "600", "700"],
 });
 
-const dmMono = DM_Mono({
-  variable: "--font-dm-mono",
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
-  title: "Following the Heat to Its Source · Math 3 (BAS 113)",
+  title: "Two Robots, One Fire · Math 3 (BAS 113)",
   description:
-    "A rescue robot at (3, 2) m climbs the temperature field T(x, y) = 100·e^(−(x² + 2y²)/10) along the gradient. Badr University in Cairo, Math 3 project.",
+    "Two robots start at (3, 2) m: one heads straight at the heat source, the other follows ∇T. A Math 3 project on the gradient and the directional derivative, Badr University in Cairo.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${dmSerif.variable} ${dmSans.variable} ${dmMono.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${manrope.variable} ${plexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-paper text-ink">{children}</body>
+      <body className="min-h-full flex flex-col bg-bg text-ink">{children}</body>
     </html>
   );
 }

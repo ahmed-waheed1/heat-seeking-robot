@@ -16,13 +16,13 @@ export function CodeBlock({ code, filename }: { code: string; filename: string }
   };
 
   return (
-    <figure className="overflow-hidden rounded-[12px] bg-[#13241c] text-[#e4eddf] shadow-sm">
-      <figcaption className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-2.5">
-        <span className="font-mono text-sm text-[#a9c2b3]">{filename}</span>
+    <figure className="overflow-hidden rounded-2xl bg-ink text-[#E9EEF2]">
+      <figcaption className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3">
+        <span className="font-mono text-sm text-[#AEBBC7]">{filename}</span>
         <button
           type="button"
           onClick={copy}
-          className="rounded-lg bg-ember px-3 py-1.5 text-sm font-semibold text-white transition hover:brightness-110"
+          className="rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-white/20"
         >
           {status === "copied" ? "Copied ✓" : status === "failed" ? "Copy failed" : "Copy"}
         </button>
@@ -30,7 +30,7 @@ export function CodeBlock({ code, filename }: { code: string; filename: string }
           {status === "copied" ? "Code copied to clipboard" : status === "failed" ? "Copy failed" : ""}
         </span>
       </figcaption>
-      <pre className="overflow-x-auto p-4 text-[13px] leading-relaxed sm:text-sm" tabIndex={0} aria-label={`${filename} source code`}>
+      <pre tabIndex={0} aria-label={`${filename} source code`} className="overflow-x-auto px-5 py-4 text-[13px] leading-relaxed sm:text-sm">
         <code className="font-mono">{code}</code>
       </pre>
     </figure>

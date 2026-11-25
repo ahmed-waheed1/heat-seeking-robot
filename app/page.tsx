@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { CodeBlock } from "@/components/CodeBlock";
-import { ContourSim } from "@/components/ContourSim";
+import { RaceCard } from "@/components/RaceCard";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
-import { fmt, RESULTS } from "@/lib/heat";
 
 const GRADIENT_PY = `import numpy as np
 
@@ -44,166 +43,119 @@ const TEAM = [
   ["Mohamed Ahmed Mohamed Abdo", "2024031114"],
 ];
 
-function SectionHeading({ n, title, id }: { n: string; title: string; id: string }) {
+function Chapter({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
+  const id = `chapter-${n}`;
   return (
-    <div className="mb-6 flex items-baseline gap-4">
-      <span className="font-mono text-sm font-medium text-ember" aria-hidden>
-        {n}
-      </span>
-      <h2 id={id} className="font-serif text-3xl text-forest sm:text-4xl">
+    <section aria-labelledby={id} className="border-t border-line pt-12">
+      <p className="font-mono text-sm font-medium text-coral">Chapter {n}</p>
+      <h2 id={id} className="mt-2 font-serif text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
         {title}
       </h2>
-    </div>
+      <div className="mt-6">{children}</div>
+    </section>
   );
 }
 
 function Eq({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[12px] bg-card p-4">
-      <p className="text-xs font-semibold uppercase tracking-wide text-muted">{label}</p>
-      <p className="mt-1.5 font-mono text-[15px] leading-relaxed text-ink sm:text-base">{children}</p>
+    <div className="py-4">
+      <p className="text-[15px] text-muted">{label}</p>
+      <p className="mt-1 font-mono text-[17px] leading-relaxed sm:text-lg">{children}</p>
     </div>
   );
 }
 
 export default function Home() {
-  const facts = [
-    ["Fastest rate", fmt(RESULTS.maxRate), "°C/m"],
-    ["Straight at source", fmt(RESULTS.rateToSource ?? 0), "°C/m"],
-    ["Gradient path", fmt(RESULTS.pathLength), "m"],
-  ];
-
   return (
     <>
       <SiteHeader />
       <main id="main" className="flex-1">
-        {/* Hero */}
-        <section className="topo-lines bg-forest text-white" aria-labelledby="hero-title">
-          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
-            <p className="font-mono text-sm uppercase tracking-[0.18em] text-[#f0a774]">
-              Gradient · directional derivative
-            </p>
-            <h1 id="hero-title" className="mt-4 max-w-3xl font-serif text-4xl leading-[1.05] sm:text-6xl">
-              Following the Heat to Its Source
-            </h1>
-            <p className="mt-5 max-w-xl text-lg text-[#d6e3d9]">
-              A rescue robot at <span className="font-mono">(3, 2)</span> m climbs the temperature as fast as it can.
-            </p>
-            <dl className="mt-10 grid max-w-3xl gap-3 sm:grid-cols-3">
-              {facts.map(([label, value, unit]) => (
-                <div key={label} className="rounded-[12px] border border-white/15 bg-white/[0.07] px-4 py-3">
-                  <dt className="text-sm text-[#c4d6ca]">{label}</dt>
-                  <dd className="mt-1 font-mono text-2xl font-medium">
-                    {value} <span className="text-base text-[#c4d6ca]">{unit}</span>
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </section>
+        <div className="mx-auto max-w-[720px] px-4 pt-14 pb-10 sm:px-6 sm:pt-20">
+          <p className="font-mono text-sm font-medium uppercase tracking-[0.18em] text-coral">
+            Gradient · directional derivative
+          </p>
+          <h1 className="mt-4 font-serif text-5xl font-bold leading-[1.02] tracking-tight sm:text-7xl">
+            Two Robots, One Fire
+          </h1>
+          <p className="mt-6 text-xl leading-relaxed text-muted">
+            Both start at <span className="font-mono text-ink">(3, 2)</span> m and move at the same speed. One heads
+            straight at the heat source; the other always follows ∇T. Which one feels the heat rise faster?
+          </p>
+        </div>
 
-        {/* 01 Simulation */}
-        <section id="simulation" aria-labelledby="sim-title" className="scroll-mt-4">
-          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-            <SectionHeading n="01" title="Run the robot" id="sim-title" />
-            <p className="mb-6 max-w-2xl text-muted">
-              Contour map of T(x, y) over x ∈ [−1, 4], y ∈ [−1, 3] m. Each band is 10 °C. Press{" "}
-              <strong className="text-ink">Run</strong> and the robot steps 0.05 m at a time along ∇T/|∇T| until
-              T ≥ 99 °C. The dashed line is the straight route to the source, for comparison.
-            </p>
-            <ContourSim />
-          </div>
-        </section>
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <RaceCard />
+        </div>
 
-        {/* 02 Model */}
-        <section id="model" aria-labelledby="model-title" className="scroll-mt-4 bg-white/50">
-          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-            <SectionHeading n="02" title="The mathematical model" id="model-title" />
-            <div className="grid gap-3 md:grid-cols-2">
-              <Eq label="Temperature field (source at the origin)">T(x, y) = 100·e^(−(x² + 2y²)/10) °C</Eq>
-              <Eq label="Gradient">∇T = T·(−x/5, −2y/5)</Eq>
-              <Eq label="At the robot (3, 2)">
-                T = 18.27 °C
-                <br />
-                ∇T = (−10.96, −14.61)
+        <div className="mx-auto flex max-w-[720px] flex-col gap-16 px-4 py-20 sm:px-6">
+          <Chapter n={1} title="The problem">
+            <p>
+              A heat source sits at the origin of a room, and the temperature is{" "}
+              <span className="font-mono">T(x, y) = 100·e^(−(x² + 2y²)/10) °C</span>. A rescue robot at (3, 2) m
+              wants to climb the temperature as fast as possible. Which way should it move, how fast does T rise, and
+              what path does it follow?
+            </p>
+          </Chapter>
+
+          <Chapter n={2} title="The mathematical model">
+            <div className="divide-y divide-line border-y border-line">
+              <Eq label="Gradient of the temperature">∇T = T·(−x/5, −2y/5)</Eq>
+              <Eq label="At the robot (3, 2)">T = 18.27 °C, ∇T = (−10.96, −14.61)</Eq>
+              <Eq label="Fastest rise">along ∇T, at rate |∇T| = 18.27 °C/m</Eq>
+              <Eq label="Straight at the source">
+                u = −(3, 2)/√13 → D<sub>u</sub>T = ∇T · u = 17.23 °C/m
               </Eq>
-              <Eq label="Fastest rate of increase">|∇T| = 18.27 °C/m</Eq>
-              <Eq label="Heading straight at the source">
-                u = −(3, 2)/√13
-                <br />
-                D<sub>u</sub>T = ∇T·u = 17.23 °C/m
-              </Eq>
-              <Eq label="Gradient path (step 0.05 m, stop at T ≥ 99 °C)">3.45 m in 69 steps</Eq>
             </div>
-            <div className="mt-6 rounded-[12px] border-2 border-ember bg-[#fbeee5] p-5">
-              <p className="text-sm font-semibold uppercase tracking-wide text-ember">Answer</p>
-              <p className="mt-1 font-serif text-2xl text-ink sm:text-3xl">
-                Move along ∇T: T rises <span className="font-mono text-ember">18.27 °C/m</span>.
-              </p>
-              <p className="mt-2 text-muted">
-                Heading straight at the source gives only 17.23 °C/m, because u is not parallel to ∇T.
-              </p>
-            </div>
-          </div>
-        </section>
+            <p className="mt-8 inline-flex flex-wrap items-center gap-x-2 rounded-full bg-coral px-6 py-3 text-white">
+              <span className="font-semibold">Answer:</span>
+              <span>
+                move along ∇T: T rises <span className="font-mono font-medium">18.27 °C/m</span>
+              </span>
+            </p>
+          </Chapter>
 
-        {/* 03 Code */}
-        <section id="code" aria-labelledby="code-title" className="scroll-mt-4">
-          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-            <SectionHeading n="03" title="The software code" id="code-title" />
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-              <CodeBlock code={GRADIENT_PY} filename="gradient.py" />
-              <div className="flex flex-col gap-6">
-                <figure className="overflow-hidden rounded-[12px] border border-forest/20 bg-white">
-                  <figcaption className="border-b border-forest/10 px-4 py-2.5 text-sm font-semibold text-muted">
-                    Output
-                  </figcaption>
-                  <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-ink sm:text-sm">
-                    {OUTPUT}
-                  </pre>
-                </figure>
-                <div className="rounded-[12px] bg-forest p-5 text-white">
-                  <p className="text-sm font-semibold uppercase tracking-wide text-[#f0a774]">Conclusion</p>
-                  <p className="mt-2 text-lg leading-relaxed">
-                    Heading straight at the source is not the steepest way. The gradient path bends because heat
-                    drops faster in y than in x.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+          <Chapter n={3} title="The software code">
+            <p className="mb-6">
+              The same calculation in Python with NumPy: evaluate T and ∇T at (3, 2), compare the two rates, then
+              follow the gradient in 0.05 m steps until T reaches 99 °C.
+            </p>
+            <CodeBlock code={GRADIENT_PY} filename="gradient.py" />
+            <figure className="mt-4 overflow-hidden rounded-2xl border border-line bg-sand">
+              <figcaption className="px-5 pt-3 text-sm font-semibold text-muted">Output</figcaption>
+              <pre className="overflow-x-auto px-5 pt-2 pb-4 font-mono text-[13px] leading-relaxed sm:text-sm">{OUTPUT}</pre>
+            </figure>
+            <p className="mt-8 border-l-[3px] border-coral pl-5 font-serif text-2xl font-semibold leading-snug">
+              Conclusion: heading straight at the source is not the steepest way. The gradient path bends because heat
+              drops faster in y than in x.
+            </p>
+          </Chapter>
 
-        {/* 04 Team */}
-        <section id="team" aria-labelledby="team-title" className="scroll-mt-4 bg-white/50">
-          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-            <SectionHeading n="04" title="Team" id="team-title" />
-            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Chapter n={4} title="The team">
+            <ul className="divide-y divide-line border-y border-line">
               {TEAM.map(([name, id]) => (
-                <li key={id} className="flex flex-col gap-2 rounded-[12px] bg-card p-4">
-                  <span className="font-semibold leading-snug text-ink">{name}</span>
-                  <span className="flex items-center justify-between gap-2">
-                    <span className="font-mono text-sm text-muted">
-                      <span className="sr-only">Student ID </span>
-                      {id}
-                    </span>
-                    <span className="rounded-md bg-forest px-2 py-0.5 font-mono text-xs font-medium text-white">
-                      MET
-                    </span>
+                <li key={id} className="flex flex-col py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                  <span className="font-semibold">{name}</span>
+                  <span className="font-mono text-[15px] text-muted">
+                    <span className="sr-only">Student ID </span>
+                    {id} · MET
                   </span>
                 </li>
               ))}
             </ul>
-            <p className="mt-8 text-muted">
-              Supervised by <strong className="font-semibold text-ink">Assoc. Prof. Dr. Mourad Semary</strong>
+            <p className="mt-6 text-muted">
+              Supervised by <span className="font-semibold text-ink">Assoc. Prof. Dr. Mourad Semary</span>
             </p>
-            <p className="mt-6">
-              <Link href="/explore" className="font-semibold text-ember underline underline-offset-4">
-                See the temperature as a 3D hill →
-              </Link>
-            </p>
+          </Chapter>
+
+          <div>
+            <Link
+              href="/explore"
+              className="inline-block rounded-full bg-ink px-7 py-3.5 font-semibold text-white transition hover:bg-[#33424f]"
+            >
+              Watch the race in 3D →
+            </Link>
           </div>
-        </section>
+        </div>
       </main>
       <SiteFooter />
     </>

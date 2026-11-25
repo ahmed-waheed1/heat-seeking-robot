@@ -1,25 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f3f6ee;
-  --ink: #1a2e24;
-  --muted: #4e6458;
-  --forest: #1f4d3a;
-  --ember: #c2530f;
-  --card: #e4eddf;
+  --bg: #faf8f5;
+  --paper: #ffffff;
+  --sand: #f1ece5;
+  --ink: #26323d;
+  --muted: #5b6b7a;
+  --line: #e3dbd0;
+  --coral: #c9472e;
+  --slate: #5b6b7a;
 }
 
 @theme inline {
+  --color-bg: var(--bg);
   --color-paper: var(--paper);
+  --color-sand: var(--sand);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
-  --color-forest: var(--forest);
-  --color-ember: var(--ember);
-  --color-card: var(--card);
-  --font-sans: var(--font-dm-sans);
-  --font-serif: var(--font-dm-serif);
-  --font-mono: var(--font-dm-mono);
-  --radius-card: 12px;
+  --color-line: var(--line);
+  --color-coral: var(--coral);
+  --color-slate: var(--slate);
+  --font-sans: var(--font-manrope);
+  --font-serif: var(--font-fraunces);
+  --font-mono: var(--font-plex-mono);
 }
 
 html {
@@ -30,22 +33,24 @@ html {
   html {
     scroll-behavior: auto;
   }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
 
 body {
-  background: var(--paper);
+  background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
 }
 
 :focus-visible {
-  outline: 3px solid var(--ember);
-  outline-offset: 2px;
-  border-radius: 6px;
-}
-
-/* Faint topographic contour texture for the hero band */
-.topo-lines {
-  background-image:
-    repeating-radial-gradient(ellipse 60% 42% at 78% 40%, transparent 0 22px, rgb(255 255 255 / 0.07) 22px 23px);
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+  border-radius: 8px;
 }
