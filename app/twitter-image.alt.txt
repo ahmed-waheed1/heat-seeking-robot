@@ -1,0 +1,1 @@
+Two Robots, One Fire: the gradient robot climbs at 18.27 °C/m, the straight robot at 17.23 °C/m.

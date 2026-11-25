@@ -21,9 +21,22 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Two Robots, One Fire · Math 3 (BAS 113)",
+  metadataBase: new URL("https://heat-seeking-robot.vercel.app"),
+  title: {
+    default: "Two Robots, One Fire · Math 3",
+    template: "%s · Two Robots, One Fire",
+  },
   description:
-    "Two robots start at (3, 2) m: one heads straight at the heat source, the other follows ∇T. A Math 3 project on the gradient and the directional derivative, Badr University in Cairo.",
+    "A race between a robot that follows the gradient ∇T and one that heads straight at a fire, with the math, a Python solution and a 3D view. Math 3 (BAS 113), Badr University in Cairo.",
+  openGraph: {
+    type: "website",
+    siteName: "Two Robots, One Fire",
+    locale: "en_US",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
