@@ -41,6 +41,7 @@ const TEAM = [
   ["Mohamed Nabil Mahmoud", "2024034854"],
   ["Mohamed Ezzat Mostafa Mohamed", "2024039102"],
   ["Mohamed Ahmed Mohamed Abdo", "2024031114"],
+  ["Ahmed Alaa Eldin Zein", "2025024492"],
 ];
 
 function Chapter({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
