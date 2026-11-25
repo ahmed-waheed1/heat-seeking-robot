@@ -41,6 +41,7 @@ const TEAM = [
   ["Ahmed Adel Mohamed Abdullah", "2023000401"],
   ["Mohamed Nabil Mahmoud", "2024034854"],
   ["Mohamed Ezzat Mostafa Mohamed", "2024039102"],
+  ["Mohamed Ahmed Mohamed Abdo", "2024031114"],
 ];
 
 function SectionHeading({ n, title, id }: { n: string; title: string; id: string }) {
